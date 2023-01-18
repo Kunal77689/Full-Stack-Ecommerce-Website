@@ -1,6 +1,7 @@
 import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 
@@ -67,6 +68,13 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const handleClickReg = () => {
+    navigate("/login");
+  };
+  const handleClickSig = () => {
+    navigate("/register");
+  };
   return (
     <Container>
       <Wrapper>
@@ -78,13 +86,13 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>LAMA.</Logo>
+          <Logo>WARDROBE.</Logo>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
+          <MenuItem onClick={handleClickReg}>REGISTER</MenuItem>
+          <MenuItem onClick={handleClickSig}>SIGN IN</MenuItem>
           <MenuItem>
-            <Badge badgeContent={4} color="primary">
+            <Badge>
               <ShoppingCartOutlined />
             </Badge>
           </MenuItem>

@@ -1,6 +1,18 @@
+import { useState } from "react";
 import styled from "styled-components";
-import {mobile} from "../responsive";
+import { mobile } from "../responsive";
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Routes,
+  NavLink,
+} from "react-router-dom";
+import Home from "./Home";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -48,26 +60,57 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+  &:disabled {
+    color: green;
+    cursor: not-allowed;
+  }
 `;
 
-const Link = styled.a`
+const Link1 = styled.a`
   margin: 5px 0px;
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
 `;
 
+const Error = styled.span`
+  color: red;
+`;
+
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const handleClick = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/api/auth/login", {
+        username: username,
+        password: password,
+      })
+      .then((res) => {
+        navigate("/");
+      })
+      .catch((res) => {});
+  };
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
-          <Input placeholder="username" />
-          <Input placeholder="password" />
-          <Button>LOGIN</Button>
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <Input
+            placeholder="username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            placeholder="password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button onClick={handleClick}>LOGIN</Button>
+          <Link to="/register">
+            <Link1>CREATE A NEW ACCOUNT</Link1>
+          </Link>
         </Form>
       </Wrapper>
     </Container>
